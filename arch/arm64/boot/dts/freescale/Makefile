@@ -1129,6 +1129,9 @@ dtb-$(CONFIG_ARCH_MXC) += imx95-19x19-verdin-root.dtb imx95-19x19-verdin-inmate.
 
 dtb-$(CONFIG_ARCH_MXC) += imx95-15x15-frdm.dtb imx95-15x15-frdm-boe-wxga-lvds-panel.dtb
 
+imx95-15x15-frdm-car2-dtbs := imx95-15x15-frdm.dtb imx95-15x15-frdm-car2.dtbo
+dtb-$(CONFIG_ARCH_MXC) += imx95-15x15-frdm-car2.dtb
+
 imx95-15x15-frdm-waveshare-7inch-c-panel-dtbs := imx95-15x15-frdm.dtb imx95-15x15-frdm-waveshare-7inch-c-panel.dtbo
 dtb-$(CONFIG_ARCH_MXC) += imx95-15x15-frdm-waveshare-7inch-c-panel.dtb
 

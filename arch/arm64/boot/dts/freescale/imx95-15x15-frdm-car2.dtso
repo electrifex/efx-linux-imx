@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright 2024 NXP
+ *
+ * Android Automotive (car2 / no-M7) overlay for the FRDM-iMX95 (15x15) board.
+ * Enables the vehicle_core node (defined disabled in imx95.dtsi) so the
+ * dummy/rpmsg vehicle HAL backend can register. Keeps the FRDM board's native
+ * display path untouched (unlike the 19x19 EVK car2 stack, which forces the
+ * adv7535 MIPI-DSI->HDMI bridge).
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/nxp,imx95-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+#include "imx95-pinfunc.h"
+
+&vehicle_core {
+	status = "okay";
+};
