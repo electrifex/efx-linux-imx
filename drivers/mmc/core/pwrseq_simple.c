@@ -136,7 +136,16 @@ static int mmc_pwrseq_simple_probe(struct platform_device *pdev)
 		return dev_err_probe(dev, PTR_ERR(pwrseq->ext_clk), "external clock not ready\n");
 
 	ngpio = of_count_phandle_with_args(dev->of_node, "reset-gpios", "#gpio-cells");
-	if (ngpio == 1) {
+	/*
+	 * Only divert a single reset line to the reset-controller framework when
+	 * the node actually declares a "resets" property. Boards like the
+	 * FRDM-iMX95 drive the WiFi/BT reset via a plain GPIO (reset-gpios, no
+	 * "resets"); on those, devm_reset_control_get_optional_shared() can defer
+	 * indefinitely ("reset control not ready"), wedging usdhc3_pwrseq and thus
+	 * the WiFi SDIO controller (and the iw612 combo's Bluetooth). Fall through
+	 * to the GPIO reset path below in that case.
+	 */
+	if (ngpio == 1 && of_property_present(dev->of_node, "resets")) {
 		pwrseq->reset_ctrl = devm_reset_control_get_optional_shared(dev, NULL);
 		if (IS_ERR(pwrseq->reset_ctrl))
 			return dev_err_probe(dev, PTR_ERR(pwrseq->reset_ctrl),
